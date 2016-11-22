@@ -1796,7 +1796,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #05825e;
+  background: #ff8528;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2610,7 +2610,7 @@ hr {
   display: block;
   overflow: hidden;
   margin: 0 auto;
-  width: 75%;
+  width: 100%;
 }
 @media (max-width: 767px) {
   .logo-line-before,
