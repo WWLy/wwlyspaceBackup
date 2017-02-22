@@ -1,0 +1,1094 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/cusImages/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="指针指针与地址
+指针在内存中占用8(64位)，并且，指针里面能存地址，指针有自己的地址。
+指针里面的存的地址可以改变，但是地址本身不能变化。
+指针有类型概念，地址只是一个16进制的常量。
+指针本身可以移动指向新的数据空间，并且指针移动一位字节数不一样（由类型决定）。
+指针有两层含义：1. 表示一个能存地址的变量（等效于指针变量）2. 还含有数据类型的概念。
+
+指针的内存布局先看一个例子： 
+1in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="指针与数组浅谈">
+<meta property="og:url" content="wwly.space/2016/02/24/指针与数组/index.html">
+<meta property="og:site_name" content="WWLy's space">
+<meta property="og:description" content="指针指针与地址
+指针在内存中占用8(64位)，并且，指针里面能存地址，指针有自己的地址。
+指针里面的存的地址可以改变，但是地址本身不能变化。
+指针有类型概念，地址只是一个16进制的常量。
+指针本身可以移动指向新的数据空间，并且指针移动一位字节数不一样（由类型决定）。
+指针有两层含义：1. 表示一个能存地址的变量（等效于指针变量）2. 还含有数据类型的概念。
+
+指针的内存布局先看一个例子： 
+1in">
+<meta property="og:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu01.png">
+<meta property="og:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu02.png">
+<meta property="og:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu03.png">
+<meta property="og:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu04.png">
+<meta property="og:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu05.png">
+<meta property="og:updated_time" content="2017-02-22T06:13:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="指针与数组浅谈">
+<meta name="twitter:description" content="指针指针与地址
+指针在内存中占用8(64位)，并且，指针里面能存地址，指针有自己的地址。
+指针里面的存的地址可以改变，但是地址本身不能变化。
+指针有类型概念，地址只是一个16进制的常量。
+指针本身可以移动指向新的数据空间，并且指针移动一位字节数不一样（由类型决定）。
+指针有两层含义：1. 表示一个能存地址的变量（等效于指针变量）2. 还含有数据类型的概念。
+
+指针的内存布局先看一个例子： 
+1in">
+<meta name="twitter:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6255085257599485000',
+      author: 'WWLy'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="wwly.space/2016/02/24/指针与数组/"/>
+
+
+
+
+
+  <title> 指针与数组浅谈 | WWLy's space </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">WWLy's space</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="wwly.space/2016/02/24/指针与数组/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="WWLy">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/cusImages/favicon.ico">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="WWLy's space">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="WWLy's space" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                指针与数组浅谈
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-02-24T16:48:00+08:00">
+                2016-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><h3 id="指针与地址"><a href="#指针与地址" class="headerlink" title="指针与地址"></a>指针与地址</h3><ul>
+<li>指针在内存中占用8(64位)，并且，指针里面能存地址，指针有自己的地址。</li>
+<li>指针里面的存的地址可以改变，但是地址本身不能变化。</li>
+<li>指针有类型概念，地址只是一个16进制的常量。</li>
+<li>指针本身可以移动指向新的数据空间，并且指针移动一位字节数不一样（由类型决定）。</li>
+<li>指针有两层含义：1. 表示一个能存地址的变量（等效于指针变量）2. 还含有数据类型的概念。</li>
+</ul>
+<h3 id="指针的内存布局"><a href="#指针的内存布局" class="headerlink" title="指针的内存布局"></a>指针的内存布局</h3><p>先看一个例子： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int *p;</div></pre></td></tr></table></figure>
+<p>这里定义了一个指针p，一个“int *”类型的模子在内存上咔出了8个字节（根据编译器环境不同而不同，64位是8个字节，32位是4个字节）的空间，然后这个空间命令为p，同时限定这4个字节的空间里面只能存储某个内存地址，即使你存入别的任何数据，都被当做地址来处理，而且这个内存地址开始的连续4个字符上只能存储某个int类型的数据。</p>
+<p><img src="/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu01.png" alt=""></p>
+<p>如上图所示，我们把p称为指针变量，p里存储的内存地址处的内存称为p所指向的内存。指针变量p里存储的任何数据都将被当作地址来处理。</p>
+<p>我们可以这么理解：一个基本的数据类型（包括结构体等自定义类型）加上”*“号就构成了一个指针类型的模子。这个模子的大小是一定的，与”*“号前面的数据类型无关。”<em>“号前面的数据类型只是说明指针所指向的内存里存储的数据类型。所以，在64位系统下，不管什么样的指针类型，其大小都是8byte，sizeof（void </em>）也是8个字节。</p>
+<p>注意int *p = NULL 和 *p = NULL的区别</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int *p = NULL;</div></pre></td></tr></table></figure>
+<p>p的值为 0x00000000。解释为：定义一个指针变量p，其指向的内存里面保存的是int类型的数据，在定义变量p的同时把p的值设置为0x00000000，而不是把*p的值设置为0x00000000。这个过程叫做初始化，是在编译的时候进行的。</p>
+<p>然后再看下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int *p;   //定义一个指针变量p，指向内存里面保存的是int类型的数据，但是此时p本身的值不知道，也就是说现在变量p保存的可能是一个非法地址</div><div class="line">*p = NULL; //给*p赋值为NULL，即给p指向的内存赋值为NULL，但是由于p指向的内存可能是非法的，所以编译器会报告一个内存错误</div></pre></td></tr></table></figure>
+<p>因此，我们可以改写上面的代码，使p指向一块合法的内存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int i = 10;</div><div class="line">int  *p = &amp;i;</div><div class="line">*p = NULL;</div></pre></td></tr></table></figure>
+<p>调试的时候可以发现：p所指向的内存地址存储的数据从10变成了0，但是p本身的值，也就是内存地址并没有变。</p>
+<p>备注：NULL是一个宏定义  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#define NULL 0</div></pre></td></tr></table></figure>
+<h3 id="如何将数值存储到指定的内存地址"><a href="#如何将数值存储到指定的内存地址" class="headerlink" title="如何将数值存储到指定的内存地址"></a>如何将数值存储到指定的内存地址</h3><p>假设现在需要往内存0x12ff7c地址上存入一个整型数0x100。我们怎么才能做到呢？我们知道可以通过一个指针向其指向的内存地址写入数据，那么这里的内存地址0x12ff7c其本质就是一个指针。所以我们可以用下面的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int *p = (int *)0x12ff7c;    //将地址0x12ff7c赋值给指针变量p的时候必须强制转换</div><div class="line">*p = 0x100;</div></pre></td></tr></table></figure>
+<p>也可以这么写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*（int *）0x12ff7c = 0x100;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h3 id="数组的内存布局"><a href="#数组的内存布局" class="headerlink" title="数组的内存布局"></a>数组的内存布局</h3><p>先看一个例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int a[5];</div></pre></td></tr></table></figure>
+<p>上面定义了一个数组，其包含了5个int型的数据，我们可以用a[0], a[1]等来访问数组里面的每一个元素，那么这些元素的名字就是a[0], a[1]…吗？我们看一个图：</p>
+<p><img src="/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu02.png" alt=""></p>
+<p>如上图所示，当我们定义一个数组a时，编译器根据指定的元素个数和元素的类型分配确定大小（元素类型大小*元素个数）的一块内存，并把这块内存的名字命名为a，名字a一旦与这块内存匹配就不能改变。a[0], a[1]等为a的元素，但并非元素的名字。数组的每一个元素都是没有名字的。那现在再看一下sizeof和数组的几个问题：</p>
+<blockquote>
+<p>在64位系统环境下：(sizeof关键字求值是在编译时)</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">int main(int argc, char const *argv[])</div><div class="line">&#123;</div><div class="line">	int a[5];</div><div class="line"></div><div class="line">	printf(&quot;%lu\n&quot;, sizeof(a));     // 20</div><div class="line">	printf(&quot;%lu\n&quot;, sizeof(&amp;a));	//  8</div><div class="line"> 	printf(&quot;%lu\n&quot;, sizeof(a[0]));  //  4</div><div class="line">	printf(&quot;%lu\n&quot;, sizeof(&amp;a[0])); //  8</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&amp;a[0]与&amp;a的区别</p>
+</blockquote>
+<p>a[0]是一个元素， a是整个数组，虽然&amp;a[0]和&amp;a的值一样，但其意义不一样。前者是数组首元素的首地址，而后者是数组的首地址。比如：湖南的省政府在长沙，而长沙的市政府也在长沙，两个政府都在长沙，但其代表的意义完全不同。这里也是同一个意思。</p>
+<h3 id="字符数组"><a href="#字符数组" class="headerlink" title="字符数组"></a>字符数组</h3><h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>是一个以’\0’结尾的字符数组，是一串字符。<br>定义及初始化：char arr[] = “abc”; 或 char arr[4] = {‘a’, ‘b’, ‘c’, ‘d’, ‘\0’};<br>输出：printf(“%s\n”, s); 或 printf(“%s\n”, &amp;arr[0]);<br>赋值：strcpy(字符变量名，”字符串”);</p>
+<blockquote>
+<p>特点</p>
+</blockquote>
+<ul>
+<li>后面必须有’\0’结尾，否则只是普通的字符数组，但是’\0’不会输出，只表示字符串结束。</li>
+<li>字符串输出占位用%s，必须遇到’\0’才会结束，否则会继续输出更高位地址值的字符。</li>
+<li>strlen函数用于计算一个字符串的长度（字符常量），使用必须引入<string.h>。</string.h></li>
+<li>strlen不会计算’\0’，且碰到’\0’结束，但是sizeof不受’\0’映像，且长度会包含’\0’.</li>
+<li>字符串一定是字符数组，但字符数组不一定是字符串。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">int main(int argc, char const *argv[])</div><div class="line">&#123;</div><div class="line">	char s[] = &quot;abcd&quot;;</div><div class="line">	char s1[] = &#123;&apos;a&apos;, &apos;b&apos;, &apos;c&apos;&#125;;</div><div class="line"></div><div class="line">	printf(&quot;%s\n&quot;, s1);   //  adcabcd 在内存访问到&apos;\0&apos;为止，所以连s一起输出</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="指针与数组"><a href="#指针与数组" class="headerlink" title="指针与数组"></a>指针与数组</h3><p>以指针的形式访问和以下标的形式访问</p>
+<p>指针与数组之间似是而非的特点。例如，有如下定义：</p>
+<pre><code>A)  char *p = &quot;abcdef&quot;;
+B)  char a[] = &quot;123456&quot;;
+</code></pre><blockquote>
+<p>以指针的形式访问和以下标的形式访问指针 </p>
+</blockquote>
+<p>A定义了一个指针变量p，p本身在栈上占8个字节，p里面存储的是一块内存的首地址。这块内存在静态区，其空间大小为7个byte，这块内存没有名字，对这块内存的访问完全是匿名的访问。比如要读取字符’e’，我们有两种方式：</p>
+<p>1）以指针的形式：*(p+4)  先取出p里存储的地址值，假设为0x0000FF00，然后加上4个字符的偏移量，得到新的地址0x0000FF04，然后取出0x000FF04地址上的值。</p>
+<p>2）以下标的形式：p[4]  编译器总是把下标的形式的操作解析为以指针的形式的操作。p[4]这个操作会被解析成：先取出p里存储的地址值，然后加上中括号中4个元素的偏移量，计算出新的地址，然后从新的地址中取出值，也就是说以下标的形式访问在本质上与指针的的形式访问没有区别，只是写法上不同罢了。</p>
+<blockquote>
+<p>以指针的形式访问和以下标的形式访问数组</p>
+</blockquote>
+<p>B定义了一个数组a，a拥有7个char类型的元素，其空间大小为7。数组a本身在栈上面。对a的元素的访问必须先根据数组的名字a找到数组首元素的首地址，然后根据偏移量找到相应的值。这是一种典型的“具名 + 匿名”访问。</p>
+<p>指针和数组是两个完全不一样的东西，只是它们都可以“以指针形式”或“以下标形式”进行访问。一个是完全的匿名访问，一个是典型的具名+匿名访问。一定要注意的是这个“以XXX的形式的访问”这种表达方式。</p>
+<p><em>偏移量的单位是元素的个数而不是byte数，计算地址时需注意。</em></p>
+<h3 id="a和-amp-a的区别"><a href="#a和-amp-a的区别" class="headerlink" title="a和&amp;a的区别"></a>a和&amp;a的区别</h3><p>我们看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">int main(int argc, char const *argv[])</div><div class="line">&#123;</div><div class="line">	int a[5] = &#123;1,2,3,4,5&#125;;</div><div class="line">	int *ptr = (int *)(&amp;a+1);</div><div class="line">	printf(&quot;%d, %d\n&quot;, *(a+1), *(ptr-1));  // 2 5</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个例子主要考察关于指针加减操作的理解</p>
+<p>对指针进行加1操作，得到的是下一个元素的地址，而不是原有地址值直接加1.所以一个类型为T的指针的移动，以sizeof(T)为移动单位。因此，a是一个一维数组，数组中有5个元素：ptr是一个int型的指针。</p>
+<ul>
+<li>&amp;a+1：取数组a的首地址，该地址的值加上sizeof(a)的值，即 &amp;a + 5*sizeof(int)，也就是下一个数组的首地址，显然当前指针已经越过了数组的界限。</li>
+<li>(int <em>)(&amp;a+1)：则是把上一步计算出来的地址，强制转化为int </em>类型，赋值给ptr。</li>
+<li>(a + 1)：a，&amp;a的值是一样的，但意思不一样，a是数组首元素的首地址，也就是a[0]的首地址，&amp;a是数组的首地址，a+1是数组下一元素的首地址，即a[1]的首地址。&amp;a+1是下一个数组的首地址，所以输出2.</li>
+<li>*(ptr - 1)：因为ptr是指向a[5]，并且ptr是int<em>类型，所以\</em>(ptr-1)是指向a[4]，输出5。</li>
+</ul>
+<h2 id="指针与数组的特性总结"><a href="#指针与数组的特性总结" class="headerlink" title="指针与数组的特性总结"></a>指针与数组的特性总结</h2><table>
+<thead>
+<tr>
+<th>指针</th>
+<th>数组</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>保存数据的地址，任何存入指针变量p的数据都会被当做地址来处理。p本身的地址由编译器另外存储，存储在哪里，我们并不知道。</td>
+<td>保存数据，数组名a代表的是数组首元素的首地址而不是数组的首地址。&amp;a才是整个数组的首地址。a本身的地址由编译器另外存储，存储在哪里，我们并不知道。</td>
+</tr>
+<tr>
+<td>间接访问数据，首先取得指针变量p的内容，把它作为地址，然后从这个地址提取数据或向这个地址写入数据。指针可以以指针的形式访问<em>(p+i); 也可以以下标的形式访问p[i]。但本质都是先取p的内容然后加上i</em>sizeof(类型)个byte作为数据的真正地址。</td>
+<td>直接访问数据，数组名a是整个数组的名字，数组内每个元素并没有名字。只能通过“具名+匿名”的方式来访问某个元素，不能把数组当一个整体来进行读写操作。数组可以以指针的形式访问<em>(a+i); 也可以以下标的形式访问 a[i]。但其本质都是a所代表的数组首元素的首地址加上i</em>sizeof(类型)个byte作为数据的真正地址。</td>
+</tr>
+<tr>
+<td>通常用于动态数据结构</td>
+<td>通常用于存储固定数目且数据类型相同的元素。</td>
+</tr>
+<tr>
+<td>相关的函数为malloc和free</td>
+<td>隐式分配和删除</td>
+</tr>
+<tr>
+<td>通常指向匿名数据（当然也可指向具名数据）</td>
+<td>自身即为数组名</td>
+</tr>
+</tbody>
+</table>
+<h3 id="指针数组和数组指针"><a href="#指针数组和数组指针" class="headerlink" title="指针数组和数组指针"></a>指针数组和数组指针</h3><h4 id="指针数组和数组指针的内存布局"><a href="#指针数组和数组指针的内存布局" class="headerlink" title="指针数组和数组指针的内存布局"></a>指针数组和数组指针的内存布局</h4><ul>
+<li>指针数组：首先它是一个数组，数组的元素都是指针，数组占多少个字节由数组本身决定。它是“存储指针的数组”的简称。</li>
+<li>数组指针：首先它是一个指针，它指向一个数组，在64位系统下永远是占4个字节，至于它指向的数组占多少字节，并不知道。它是“指向数组的指针”的简称。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">A)  int *p1[10];   //指针数组</div><div class="line">B)  int (*p2)[10]; //数组指针</div></pre></td></tr></table></figure>
+<p>这里有一个符号优先级的问题，‘[]’的优先级比‘*’要高。</p>
+<p>p1先于‘[]’结合，构成一个数组的定义，数组名为p1，int修饰的数组的内容，即数组的每个元素。总的来讲，这是一个数组，其包含10个指向int类型数据的指针，即指针数组。</p>
+<p>p2中‘()’的优先级比‘[]’高，‘*’号和p2构成一个指针的定义，指针变量名为p2，int修饰的是数组的内容，即每个数组的每个元素。数组在这里并没有名字，是一个匿名数组。总的讲，p2是一个指针，它指向一个包含10个int类型数据的数组，即数组指针。</p>
+<p><img src="/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu03.png" alt=""><br><img src="/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu04.png" alt=""></p>
+<p>也许可以这么理解数组指针</p>
+<pre><code>通常定义指针是在数据类型后面加上指针变量名，那p2定义如下：
+int (*)[10] p2;
+int ()
+</code></pre><h3 id="a与-amp-a之间的区别"><a href="#a与-amp-a之间的区别" class="headerlink" title="a与&amp;a之间的区别"></a>a与&amp;a之间的区别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">int main(int argc, char const *argv[])</div><div class="line">&#123;</div><div class="line">	char a[5] = &#123;&apos;A&apos;, &apos;B&apos;, &apos;C&apos;, &apos;D&apos;&#125;;</div><div class="line">	char (*p1)[3] = &amp;a;</div><div class="line">	char (*p2)[3] = a;</div><div class="line">	char (*p3)[5] = &amp;a;</div><div class="line">	char (*p4)[5] = a;</div><div class="line">	/*</div><div class="line">	输出  D D BCD BCD 乱码 乱码   偏移单位由数组指针中的数组长度决定</div><div class="line">	*/</div><div class="line">	printf(&quot;%s\n%s\n%s\n%s\n%s\n%s\n&quot;, *(p1+1), *(p2+1), *p1+1, *p2+1, *(p3+1), *(p4+1));</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="地址的强制转换"><a href="#地址的强制转换" class="headerlink" title="地址的强制转换"></a>地址的强制转换</h3><p>先看一个例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">struct Test</div><div class="line">&#123;</div><div class="line">	int Num;</div><div class="line">	char *pcName;</div><div class="line">	short sDate;</div><div class="line">	char cha[2];</div><div class="line">	short sBa[4];</div><div class="line">&#125; *p;</div></pre></td></tr></table></figure>
+<p>假设p的值为0x100000，那么：</p>
+<pre><code>p + 0x1 = 0x100018
+(unsigned long)p + 0x1 = 0x100001
+(unsigned int *)p + 0x1 = 0x100004
+</code></pre><p>首先需要明白一个知识点，指针变量与一个整数相加减并不是用指针变量里的地址直接加减这个整数。这个整数的单位不是byte二十元素的个数。所以：</p>
+<pre><code>p+0x1的值为0x100000+sizeof(Test) * 0x1。至于此结构体的大小为20byte，所以p + 0x1的值为：0x100014。
+(unsigned long)p+0x1的值涉及到强制类型转换，将指针变量p保存的值强制类型转换成无符号的长整型数。任何数值一旦被强制转换，其类型就改变了。所以这个表达式其实就是一个无符号的长整型数加另一个整数，所以其值为：0x1000001。
+(unsigned int *)p+0x1中，这里的p被强制转换成一个指向无符号整型的指针，所以其值为：0x1000000+sizeof(unsigned int) * 0x1，等于0x100004。
+</code></pre><h3 id="二维数组与指针"><a href="#二维数组与指针" class="headerlink" title="二维数组与指针"></a>二维数组与指针</h3><p>先看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int a[5][5];</div><div class="line">int (*p)[4];</div><div class="line">p = a;</div><div class="line">//&amp;p[4][2] - &amp;a[4][2]的值是？</div></pre></td></tr></table></figure>
+<p>答案是 -4</p>
+<p>&amp;a[4][2]表示的是: <code>&amp;a[0][0]+4*5*sizeof(int) + 2*sizeof(int)。</code></p>
+<p>p[4]相对于p[0]来说是向后移动了4个“包含4个int 类型元素的数组”, 即&amp;p[4]表示的是&amp;p[0]+4*4*sizeof(int)。由于p被初始化为&amp;a[0]，那么&amp;p[4][2]表示的是&amp;a[0][0] + 4*4*sizeof(int) + 2*sizeof(int)。 </p>
+<p>所以，&amp;p[4][2]和&amp;a[4][2]的值相差4个int类型的元素。可以用下面的内存布局图来表示：</p>
+<p><img src="/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu05.png" alt=""></p>
+<h3 id="二级指针"><a href="#二级指针" class="headerlink" title="二级指针"></a>二级指针</h3><h4 id="二级指针的内存布局"><a href="#二级指针的内存布局" class="headerlink" title="二级指针的内存布局"></a>二级指针的内存布局</h4><pre><code>char **p;
+</code></pre><p>定义了一个二级指针变量 p。p 是一个指针变量,毫无疑问在 64 位系统下占 8 个 byte。 它与一级指针不同的是,一级指针保存的是数据的地址,二级指针保存的是一级指针的地址。 </p>
+<p><em>注意: 任何指针变量都可以被初始化为NULL。</em></p>
+<h3 id="数组参数与指针参数"><a href="#数组参数与指针参数" class="headerlink" title="数组参数与指针参数"></a>数组参数与指针参数</h3><p>数组作为参数传递到函数里面时，传入的是地址，占8位。数组并没有传递至函数内部。</p>
+<p>C语言中，当一维数组作为函数参数的时候，编译器总是把它解析成一个指向其首元素首地址的指针。非数组形式的数据实参均以传值形式（对实参做一份拷贝并传递给被调用的函数，函数不能修改作为实参的实际变量的值，而只能修改传递给它的那份拷贝）调用。同样，函数的返回值也不能是一个数组，而只能是指针。明确一个概念：函数本身是没有类型的，只有函数的返回值才有类型。</p>
+<p>数组参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">void fun(cahr a[])</div><div class="line">&#123;</div><div class="line">    char c = a[3];</div><div class="line">&#125;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    char b[100] = &quot;abcdefg&quot;;</div><div class="line">    fun(b);</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>指针参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">void fun(char *p)</div><div class="line">&#123;</div><div class="line">    char c = p[3];  //或者是 char c = *(p+3);</div><div class="line">&#125;</div><div class="line">int main() </div><div class="line">&#123;</div><div class="line">    char *p2 = &quot;abcdefg&quot;;</div><div class="line">    fun(p2);</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的例子是对实参做一份拷贝并传递给被调用的函数，即对p2做一份拷贝，传递到函数内部的并非p2本身。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">void getMemory(char *p, int num)</div><div class="line">&#123;</div><div class="line">    p = (char *)malloc(num*sizeof(char));</div><div class="line">&#125;</div><div class="line">int main() &#123;</div><div class="line">    char *str = NULL;</div><div class="line">    GetMemory(str, 10);</div><div class="line">    strcpy(str, &quot;hello&quot;);</div><div class="line">    free(str);        //free 并没有起作用,内存泄漏</div><div class="line">    return 0; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在运行 strcpy(str,”hello”)语句的时候发生错误。这时候观察 str 的值，发现仍然为 NULL，也就是说 str 本身并没有改变。 </p>
+<p>所以，我们可以这么做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//第一: 用 return。</div><div class="line">char * GetMemory(char * p, int num) &#123;</div><div class="line">    p = (char *)malloc(num*sizeof(char));</div><div class="line">    return p; </div><div class="line">&#125;</div><div class="line">int main() &#123;</div><div class="line">    char *str = NULL;</div><div class="line">    str = GetMemory(str,10); </div><div class="line">    strcpy(str, &quot;hello&quot;); </div><div class="line">    free(str);</div><div class="line">    return 0;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// 第二:用二级指针。</div><div class="line">void GetMemory(char ** p, int num) &#123;</div><div class="line">    *p = (char *)malloc(num*sizeof(char));</div><div class="line">    return p; </div><div class="line">&#125;</div><div class="line">int main() &#123;</div><div class="line">    char *str = NULL; </div><div class="line">    GetMemory(&amp;str,10); </div><div class="line">    strcpy(str,”hello”); </div><div class="line">    free(str);</div><div class="line">    return 0; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意，这里的参数是&amp;str而非str。这样的话传递过去的是str的地址，是一个值。在函数内部，用钥匙 “<em>”来开锁：</em>(&amp;str)，其值就是str，所以malloc分配的内存地址是真的赋值给了str本身。</p>
+<h4 id="二维数组参数与二维指针参数"><a href="#二维数组参数与二维指针参数" class="headerlink" title="二维数组参数与二维指针参数"></a>二维数组参数与二维指针参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">void fun(char a[3][4]);</div></pre></td></tr></table></figure>
+<p>可以把 a[3][4]理解为一个一维数组 a[3],其每个元素都是一个含有 4 个 char 类型数据的数组。“C 语言中,当一维数组作为函数参数的时候,编译器总是把它解析成一个指向其首元素首地址的指针。”在这里同样适用。所以我们可以把这个函数声明改写成：</p>
+<pre><code>void fun(char (*p)[4]);  //括号绝对不能省略，这样才能保证编译器把p解析为一个指向包含4个char类型数据元素的数组，即一维数组a[3]的元素。
+</code></pre><p>同样，一维数组“[]”内的数字完全可以省略，不过第二维的维数不能省略。<br>    void fun(char a[][4]);<br>或者写为(这是因为参数*p[4],对于 p 来说,它是一个包含 4 个指针的一维数组,同样把这个一维数组也改写为指针的形式,那就得到上面的写法。)：<br>    void fun(char **p);</p>
+<h4 id="二维数组和二维指针参数的等效关系："><a href="#二维数组和二维指针参数的等效关系：" class="headerlink" title="二维数组和二维指针参数的等效关系："></a>二维数组和二维指针参数的等效关系：</h4><table>
+<thead>
+<tr>
+<th>数组参数</th>
+<th>等效的指针参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数组的数组：char a[3][4]</td>
+<td>数组的指针：char (*p)[10]</td>
+</tr>
+<tr>
+<td>指针数组：   char *a[5]</td>
+<td>指针的指针：char **p</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>需要注意：C 语言中,当一维数组作为函数参数的时候,编译器总是把它解析成一个指向其首元素首地址的指针。这条规则并不是递归的,也就是说只有一维数组才是如此,当数组超过一维时,将第一维改写为指向数组首元素首地址的指针之后,后面的维再也不可改写。 </p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/cusImages/wechat-reward-image.png" alt="WWLy WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/cusImages/alipay-reward-image.png" alt="WWLy Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/21/init hexo/" rel="prev" title="搭建hexo博客">
+                搭建hexo博客 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/cusImages/favicon.ico"
+               alt="WWLy" />
+          <p class="site-author-name" itemprop="name">WWLy</p>
+          <p class="site-description motion-element" itemprop="description">勇往直前</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/WWLy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="wwly.website" title="WWLy's website" target="_blank">WWLy's website</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#指针"><span class="nav-number">1.</span> <span class="nav-text">指针</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指针与地址"><span class="nav-number">1.1.</span> <span class="nav-text">指针与地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指针的内存布局"><span class="nav-number">1.2.</span> <span class="nav-text">指针的内存布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何将数值存储到指定的内存地址"><span class="nav-number">1.3.</span> <span class="nav-text">如何将数值存储到指定的内存地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number">2.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数组的内存布局"><span class="nav-number">2.1.</span> <span class="nav-text">数组的内存布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符数组"><span class="nav-number">2.2.</span> <span class="nav-text">字符数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串"><span class="nav-number">2.2.1.</span> <span class="nav-text">字符串</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指针与数组"><span class="nav-number">2.3.</span> <span class="nav-text">指针与数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a和-amp-a的区别"><span class="nav-number">2.4.</span> <span class="nav-text">a和&a的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指针与数组的特性总结"><span class="nav-number">3.</span> <span class="nav-text">指针与数组的特性总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指针数组和数组指针"><span class="nav-number">3.1.</span> <span class="nav-text">指针数组和数组指针</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#指针数组和数组指针的内存布局"><span class="nav-number">3.1.1.</span> <span class="nav-text">指针数组和数组指针的内存布局</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a与-amp-a之间的区别"><span class="nav-number">3.2.</span> <span class="nav-text">a与&a之间的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址的强制转换"><span class="nav-number">3.3.</span> <span class="nav-text">地址的强制转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二维数组与指针"><span class="nav-number">3.4.</span> <span class="nav-text">二维数组与指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二级指针"><span class="nav-number">3.5.</span> <span class="nav-text">二级指针</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二级指针的内存布局"><span class="nav-number">3.5.1.</span> <span class="nav-text">二级指针的内存布局</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组参数与指针参数"><span class="nav-number">3.6.</span> <span class="nav-text">数组参数与指针参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二维数组参数与二维指针参数"><span class="nav-number">3.6.1.</span> <span class="nav-text">二维数组参数与二维指针参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二维数组和二维指针参数的等效关系："><span class="nav-number">3.6.2.</span> <span class="nav-text">二维数组和二维指针参数的等效关系：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WWLy</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
