@@ -106,12 +106,12 @@
 
 指针的内存布局先看一个例子： 
 1in">
-<meta property="og:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu01.png">
-<meta property="og:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu02.png">
-<meta property="og:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu03.png">
-<meta property="og:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu04.png">
-<meta property="og:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu05.png">
-<meta property="og:updated_time" content="2017-02-22T06:13:16.000Z">
+<meta property="og:image" content="wwly.space/img/指针与数组/zhizhenyushuzu01.png">
+<meta property="og:image" content="wwly.space/img/指针与数组/zhizhenyushuzu02.png">
+<meta property="og:image" content="wwly.space/img/指针与数组/zhizhenyushuzu03.png">
+<meta property="og:image" content="wwly.space/img/指针与数组/zhizhenyushuzu04.png">
+<meta property="og:image" content="wwly.space/img/指针与数组/zhizhenyushuzu05.png">
+<meta property="og:updated_time" content="2017-02-22T09:04:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="指针与数组浅谈">
 <meta name="twitter:description" content="指针指针与地址
@@ -123,7 +123,7 @@
 
 指针的内存布局先看一个例子： 
 1in">
-<meta name="twitter:image" content="wwly.space/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu01.png">
+<meta name="twitter:image" content="wwly.space/img/指针与数组/zhizhenyushuzu01.png">
 
 
 
@@ -402,7 +402,7 @@
 <h3 id="指针的内存布局"><a href="#指针的内存布局" class="headerlink" title="指针的内存布局"></a>指针的内存布局</h3><p>先看一个例子： </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int *p;</div></pre></td></tr></table></figure>
 <p>这里定义了一个指针p，一个“int *”类型的模子在内存上咔出了8个字节（根据编译器环境不同而不同，64位是8个字节，32位是4个字节）的空间，然后这个空间命令为p，同时限定这4个字节的空间里面只能存储某个内存地址，即使你存入别的任何数据，都被当做地址来处理，而且这个内存地址开始的连续4个字符上只能存储某个int类型的数据。</p>
-<p><img src="/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu01.png" alt=""></p>
+<p><img src="/img/指针与数组/zhizhenyushuzu01.png" alt=""></p>
 <p>如上图所示，我们把p称为指针变量，p里存储的内存地址处的内存称为p所指向的内存。指针变量p里存储的任何数据都将被当作地址来处理。</p>
 <p>我们可以这么理解：一个基本的数据类型（包括结构体等自定义类型）加上”*“号就构成了一个指针类型的模子。这个模子的大小是一定的，与”*“号前面的数据类型无关。”<em>“号前面的数据类型只是说明指针所指向的内存里存储的数据类型。所以，在64位系统下，不管什么样的指针类型，其大小都是8byte，sizeof（void </em>）也是8个字节。</p>
 <p>注意int *p = NULL 和 *p = NULL的区别</p>
@@ -423,7 +423,7 @@
 <h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h3 id="数组的内存布局"><a href="#数组的内存布局" class="headerlink" title="数组的内存布局"></a>数组的内存布局</h3><p>先看一个例子</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int a[5];</div></pre></td></tr></table></figure>
 <p>上面定义了一个数组，其包含了5个int型的数据，我们可以用a[0], a[1]等来访问数组里面的每一个元素，那么这些元素的名字就是a[0], a[1]…吗？我们看一个图：</p>
-<p><img src="/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu02.png" alt=""></p>
+<p><img src="/img/指针与数组/zhizhenyushuzu02.png" alt=""></p>
 <p>如上图所示，当我们定义一个数组a时，编译器根据指定的元素个数和元素的类型分配确定大小（元素类型大小*元素个数）的一块内存，并把这块内存的名字命名为a，名字a一旦与这块内存匹配就不能改变。a[0], a[1]等为a的元素，但并非元素的名字。数组的每一个元素都是没有名字的。那现在再看一下sizeof和数组的几个问题：</p>
 <blockquote>
 <p>在64位系统环境下：(sizeof关键字求值是在编译时)</p>
@@ -509,7 +509,7 @@ B)  char a[] = &quot;123456&quot;;
 <p>这里有一个符号优先级的问题，‘[]’的优先级比‘*’要高。</p>
 <p>p1先于‘[]’结合，构成一个数组的定义，数组名为p1，int修饰的数组的内容，即数组的每个元素。总的来讲，这是一个数组，其包含10个指向int类型数据的指针，即指针数组。</p>
 <p>p2中‘()’的优先级比‘[]’高，‘*’号和p2构成一个指针的定义，指针变量名为p2，int修饰的是数组的内容，即每个数组的每个元素。数组在这里并没有名字，是一个匿名数组。总的讲，p2是一个指针，它指向一个包含10个int类型数据的数组，即数组指针。</p>
-<p><img src="/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu03.png" alt=""><br><img src="/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu04.png" alt=""></p>
+<p><img src="/img/指针与数组/zhizhenyushuzu03.png" alt=""><br><img src="/img/指针与数组/zhizhenyushuzu04.png" alt=""></p>
 <p>也许可以这么理解数组指针</p>
 <pre><code>通常定义指针是在数据类型后面加上指针变量名，那p2定义如下：
 int (*)[10] p2;
@@ -531,7 +531,7 @@ int ()
 <p>&amp;a[4][2]表示的是: <code>&amp;a[0][0]+4*5*sizeof(int) + 2*sizeof(int)。</code></p>
 <p>p[4]相对于p[0]来说是向后移动了4个“包含4个int 类型元素的数组”, 即&amp;p[4]表示的是&amp;p[0]+4*4*sizeof(int)。由于p被初始化为&amp;a[0]，那么&amp;p[4][2]表示的是&amp;a[0][0] + 4*4*sizeof(int) + 2*sizeof(int)。 </p>
 <p>所以，&amp;p[4][2]和&amp;a[4][2]的值相差4个int类型的元素。可以用下面的内存布局图来表示：</p>
-<p><img src="/Users/wwly/WWLySpace/source/_posts/指针与数组/zhizhenyushuzu05.png" alt=""></p>
+<p><img src="/img/指针与数组/zhizhenyushuzu05.png" alt=""></p>
 <h3 id="二级指针"><a href="#二级指针" class="headerlink" title="二级指针"></a>二级指针</h3><h4 id="二级指针的内存布局"><a href="#二级指针的内存布局" class="headerlink" title="二级指针的内存布局"></a>二级指针的内存布局</h4><pre><code>char **p;
 </code></pre><p>定义了一个二级指针变量 p。p 是一个指针变量,毫无疑问在 64 位系统下占 8 个 byte。 它与一级指针不同的是,一级指针保存的是数据的地址,二级指针保存的是一级指针的地址。 </p>
 <p><em>注意: 任何指针变量都可以被初始化为NULL。</em></p>
@@ -626,14 +626,18 @@ int ()
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/02/19/消息传递/" rel="next" title="消息传递">
+                <i class="fa fa-chevron-left"></i> 消息传递
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/11/21/init hexo/" rel="prev" title="搭建hexo博客">
-                搭建hexo博客 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/19/GCD与多线程/" rel="prev" title="GCD与多线程">
+                GCD与多线程 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -725,7 +729,7 @@ int ()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -733,7 +737,7 @@ int ()
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -742,7 +746,7 @@ int ()
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

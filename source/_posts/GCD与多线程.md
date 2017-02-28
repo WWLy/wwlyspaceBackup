@@ -135,7 +135,7 @@ dispatch_queue_t queue = dispatch_queue_create(const char *label, DISPATCH_QUEUE
 主要用于在多个异步操作完成之后,对非线程安全的对象 (类似于NSMutableArray) 进行统一更新, 适合大规模的I/O操作.
 
 使用dispatch_barrier_async 添加的block会在之前添加的block全部运行结束之后,才会在同一个线程顺序执行, 从而保证对非线程安全的对象进行正确的操作. 参数不能用全局队列,只能用自定义队列.
-![](/Users/wwly/WWLySpace/source/_posts/GCD与多线程/GCD01.png
+![](/img/GCD与多线程/GCD01.png
 )
 
 ### 延迟执行 dispatch_after 
